@@ -1,0 +1,20 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthResponse {
+  authToken: String!
+}
+
+type Mutation {
+  register(registerInput: RegisterInput!): AuthResponse!
+}
+
+type Query {
+  login(email: String!, password: String!): AuthResponse!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+}
