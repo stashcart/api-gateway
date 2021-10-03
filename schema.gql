@@ -21,7 +21,7 @@ type Query {
 
 type Mutation {
   register(registerInput: RegisterInput!): AuthResponse!
-  patchProfile(patchProfileInput: PatchProfileInput!): Profile!
+  patchMyProfile(patchProfileInput: PatchProfileInput!): Profile!
 }
 
 input RegisterInput {
