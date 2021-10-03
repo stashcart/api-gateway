@@ -16,6 +16,7 @@ type Profile {
 type Query {
   login(email: String!, password: String!): AuthResponse!
   profile(id: String!): Profile!
+  myProfile: Profile!
 }
 
 type Mutation {
