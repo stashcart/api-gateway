@@ -6,15 +6,30 @@ type AuthResponse {
   authToken: String!
 }
 
-type Mutation {
-  register(registerInput: RegisterInput!): AuthResponse!
+type Profile {
+  id: ID!
+  email: String
+  name: String
+  phone: String
 }
 
 type Query {
   login(email: String!, password: String!): AuthResponse!
+  profile(id: String!): Profile!
+}
+
+type Mutation {
+  register(registerInput: RegisterInput!): AuthResponse!
+  patchProfile(patchProfileInput: PatchProfileInput!): Profile!
 }
 
 input RegisterInput {
   email: String!
   password: String!
+}
+
+input PatchProfileInput {
+  name: String
+  email: String
+  phone: String
 }
