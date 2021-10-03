@@ -6,6 +6,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AuthModule } from './auth/auth.module';
 import { JwtStrategy } from './_common/strategies/jwt.strategy';
 import { ProfilesModule } from './profiles/profiles.module';
+import { CartsModule } from './carts/carts.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ProfilesModule } from './profiles/profiles.module';
     }),
     AuthModule,
     ProfilesModule,
+    CartsModule,
   ],
   providers: [JwtStrategy],
 })

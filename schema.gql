@@ -13,10 +13,51 @@ type Profile {
   phone: String
 }
 
+type Product {
+  id: Float!
+  url: String!
+  price: Float
+  name: String
+  storeName: String!
+}
+
+type CartItem {
+  id: Float!
+  customer: Profile!
+  product: Product!
+  amount: Float!
+  status: CartItemStatus!
+}
+
+enum CartItemStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+type CartPreview {
+  id: Float!
+  title: String!
+  owner: Profile!
+  storeName: String!
+  isAutoApproveEnabled: Boolean!
+}
+
+type Cart {
+  id: Float!
+  title: String!
+  owner: Profile!
+  storeName: String!
+  isAutoApproveEnabled: Boolean!
+  items: [CartItem!]!
+}
+
 type Query {
   login(email: String!, password: String!): AuthResponse!
   profile(id: String!): Profile!
   myProfile: Profile!
+  carts: [CartPreview!]!
+  cart(itemsStatus: CartItemStatus, cartId: Float!): Cart!
 }
 
 type Mutation {
