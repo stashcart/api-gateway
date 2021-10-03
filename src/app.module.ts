@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AuthModule } from './auth/auth.module';
+import { JwtStrategy } from './_common/strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -16,5 +17,6 @@ import { AuthModule } from './auth/auth.module';
     }),
     AuthModule,
   ],
+  providers: [JwtStrategy],
 })
 export class AppModule {}
