@@ -8,6 +8,7 @@ import { Cart } from './models/cart.model';
 import { CartItemStatus } from './models/cart-item.model';
 import { CartPreview } from './models/cart-preview.model';
 import { CreateCartInput } from './inputs/create-cart.input';
+import { PatchCartInput } from './inputs/patch-cart.input';
 
 @Resolver()
 export class CartsResolver {
@@ -43,6 +44,18 @@ export class CartsResolver {
 
     return this.httpService
       .post('/carts', payload, onBehalfOf(userId))
+      .pipe(map(({ data }) => data));
+  }
+
+  @Mutation(() => Cart)
+  @JwtAuth()
+  patchCart(
+    @UserId() userId: string,
+    @Args('id') cartId: number,
+    @Args('patchCartInput') input: PatchCartInput,
+  ) {
+    return this.httpService
+      .patch(`/carts/${cartId}`, input, onBehalfOf(userId))
       .pipe(map(({ data }) => data));
   }
 }

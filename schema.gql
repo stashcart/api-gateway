@@ -76,6 +76,7 @@ type Mutation {
   register(registerInput: RegisterInput!): AuthResponse!
   patchProfile(patchProfileInput: PatchProfileInput!): Profile!
   createCart(createCartInput: CreateCartInput!): Cart!
+  patchCart(patchCartInput: PatchCartInput!, id: Float!): Cart!
 }
 
 input RegisterInput {
@@ -93,4 +94,9 @@ input CreateCartInput {
   title: String!
   isAutoApproveEnabled: Boolean = false
   storeId: Float!
+}
+
+input PatchCartInput {
+  title: String
+  isAutoApproveEnabled: Boolean
 }
