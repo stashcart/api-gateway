@@ -28,7 +28,7 @@ export class ProfilesResolver {
 
   @Mutation(() => Profile)
   @JwtAuth()
-  patchMyProfile(
+  patchProfile(
     @UserId() userId: string,
     @Args('patchProfileInput') patchProfileInput: PatchProfileInput,
   ) {
