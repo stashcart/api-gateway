@@ -1,5 +1,5 @@
 import { ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Profile } from 'src/profiles/models/profile.model';
+import { CartUser } from './cart-user.model';
 import { Product } from './product.model';
 
 export enum CartItemStatus {
@@ -13,7 +13,7 @@ registerEnumType(CartItemStatus, { name: 'CartItemStatus' });
 export class CartItem {
   id!: number;
 
-  customer!: Profile;
+  customer!: CartUser;
 
   product!: Product;
 

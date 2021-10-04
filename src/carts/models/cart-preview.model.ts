@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { Profile } from 'src/profiles/models/profile.model';
+import { CartUser } from './cart-user.model';
 
 @ObjectType()
 export class CartPreview {
@@ -7,7 +7,7 @@ export class CartPreview {
 
   title!: string;
 
-  owner!: Profile;
+  owner!: CartUser;
 
   storeName!: string;
 
