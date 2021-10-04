@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtStrategy } from './_common/strategies/jwt.strategy';
 import { ProfilesModule } from './profiles/profiles.module';
 import { CartsModule } from './carts/carts.module';
+import { StoresModule } from './stores/stores.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CartsModule } from './carts/carts.module';
     AuthModule,
     ProfilesModule,
     CartsModule,
+    StoresModule,
   ],
   providers: [JwtStrategy],
 })

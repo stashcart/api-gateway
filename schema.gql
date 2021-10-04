@@ -52,12 +52,19 @@ type Cart {
   items: [CartItem!]!
 }
 
+type Store {
+  id: Float!
+  name: String!
+  url: String!
+}
+
 type Query {
   login(email: String!, password: String!): AuthResponse!
   profile(id: String!): Profile!
   myProfile: Profile!
   carts: [CartPreview!]!
   cart(itemsStatus: CartItemStatus, cartId: Float!): Cart!
+  stores: [Store!]!
 }
 
 type Mutation {
