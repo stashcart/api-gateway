@@ -1,4 +1,4 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateCartInput {
@@ -6,6 +6,6 @@ export class CreateCartInput {
 
   isAutoApproveEnabled?: boolean = false;
 
-  @Field(() => ID)
+  @Field(() => Int)
   storeId!: number;
 }

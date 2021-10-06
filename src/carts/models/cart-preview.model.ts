@@ -1,9 +1,9 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { CartUser } from './cart-user.model';
 
 @ObjectType()
 export class CartPreview {
-  @Field(() => ID)
+  @Field(() => Int)
   id!: number;
 
   title!: string;

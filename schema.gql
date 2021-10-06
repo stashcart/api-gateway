@@ -19,7 +19,7 @@ type CartUser {
 }
 
 type Product {
-  id: ID!
+  id: Int!
   url: String!
   price: Float
   name: String
@@ -27,7 +27,7 @@ type Product {
 }
 
 type CartItem {
-  id: ID!
+  id: Int!
   amount: Int!
   customer: CartUser!
   product: Product!
@@ -41,7 +41,7 @@ enum CartItemStatus {
 }
 
 type CartPreview {
-  id: ID!
+  id: Int!
   title: String!
   owner: CartUser!
   storeName: String!
@@ -49,7 +49,7 @@ type CartPreview {
 }
 
 type Cart {
-  id: ID!
+  id: Int!
   title: String!
   owner: CartUser!
   storeName: String!
@@ -58,7 +58,7 @@ type Cart {
 }
 
 type Store {
-  id: ID!
+  id: Int!
   name: String!
   url: String!
 }
@@ -76,6 +76,7 @@ type Mutation {
   patchProfile(patchProfileInput: PatchProfileInput!): Profile!
   createCart(createCartInput: CreateCartInput!): Cart!
   patchCart(patchCartInput: PatchCartInput!, id: Float!): Cart!
+  closeCart(cartId: Float!): Int!
 }
 
 input RegisterInput {
@@ -90,7 +91,7 @@ input PatchProfileInput {
 }
 
 input CreateCartInput {
-  storeId: ID!
+  storeId: Int!
   title: String!
   isAutoApproveEnabled: Boolean = false
 }

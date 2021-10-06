@@ -1,5 +1,5 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
-import { map } from 'rxjs';
+import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
+import { firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { JwtAuth } from 'src/_common/decorators/jwt-auth.decorator';
 import { UserId } from 'src/_common/decorators/user-id.decorator';
@@ -59,5 +59,14 @@ export class CartsResolver {
     return this.httpService
       .patch(`/carts/${cartId}`, input, onBehalfOf(userId))
       .pipe(map(({ data }) => data));
+  }
+
+  @Mutation(() => Int)
+  @JwtAuth()
+  async closeCart(@UserId() userId: string, @Args('cartId') cartId: number) {
+    await firstValueFrom(
+      this.httpService.post(`/carts/${cartId}/close`, {}, onBehalfOf(userId)),
+    );
+    return cartId;
   }
 }
