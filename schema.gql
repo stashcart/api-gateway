@@ -19,7 +19,7 @@ type CartUser {
 }
 
 type Product {
-  id: Float!
+  id: ID!
   url: String!
   price: Float
   name: String
@@ -27,10 +27,10 @@ type Product {
 }
 
 type CartItem {
-  id: Float!
+  id: ID!
+  amount: Int!
   customer: CartUser!
   product: Product!
-  amount: Float!
   status: CartItemStatus!
 }
 
@@ -41,7 +41,7 @@ enum CartItemStatus {
 }
 
 type CartPreview {
-  id: Float!
+  id: ID!
   title: String!
   owner: CartUser!
   storeName: String!
@@ -49,7 +49,7 @@ type CartPreview {
 }
 
 type Cart {
-  id: Float!
+  id: ID!
   title: String!
   owner: CartUser!
   storeName: String!
@@ -58,7 +58,7 @@ type Cart {
 }
 
 type Store {
-  id: Float!
+  id: ID!
   name: String!
   url: String!
 }
@@ -66,8 +66,7 @@ type Store {
 type Query {
   login(email: String!, password: String!): AuthResponse!
   profile(id: String!): Profile!
-  myProfile: Profile!
-  carts: [CartPreview!]!
+  carts(ownerId: String): [CartPreview!]!
   cart(itemsStatus: CartItemStatus, cartId: Float!): Cart!
   stores: [Store!]!
 }
@@ -91,9 +90,9 @@ input PatchProfileInput {
 }
 
 input CreateCartInput {
+  storeId: ID!
   title: String!
   isAutoApproveEnabled: Boolean = false
-  storeId: Float!
 }
 
 input PatchCartInput {

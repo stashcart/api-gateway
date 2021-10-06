@@ -15,8 +15,10 @@ export class CartsResolver {
   constructor(private readonly httpService: HttpService) {}
 
   @Query(() => [CartPreview])
-  carts() {
-    return this.httpService.get('/carts').pipe(map(({ data }) => data));
+  carts(@Args('ownerId', { nullable: true }) ownerId?: string) {
+    return this.httpService
+      .get('/carts', { params: { ownerId } })
+      .pipe(map(({ data }) => data));
   }
 
   @Query(() => Cart)

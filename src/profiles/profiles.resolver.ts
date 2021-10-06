@@ -18,14 +18,6 @@ export class ProfilesResolver {
       .pipe(map(({ data }) => data));
   }
 
-  @Query(() => Profile)
-  @JwtAuth()
-  myProfile(@UserId() userId: string) {
-    return this.httpService
-      .get(`/profiles/${userId}`)
-      .pipe(map(({ data }) => data));
-  }
-
   @Mutation(() => Profile)
   @JwtAuth()
   patchProfile(

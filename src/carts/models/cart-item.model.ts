@@ -1,4 +1,4 @@
-import { ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { CartUser } from './cart-user.model';
 import { Product } from './product.model';
 
@@ -11,12 +11,14 @@ registerEnumType(CartItemStatus, { name: 'CartItemStatus' });
 
 @ObjectType()
 export class CartItem {
+  @Field(() => ID)
   id!: number;
 
   customer!: CartUser;
 
   product!: Product;
 
+  @Field(() => Int)
   amount!: number;
 
   status!: CartItemStatus;
