@@ -5,10 +5,12 @@ import { JwtAuth } from 'src/_common/decorators/jwt-auth.decorator';
 import { UserId } from 'src/_common/decorators/user-id.decorator';
 import { onBehalfOf } from 'src/_common/utils/on-behalf-of';
 import { Cart } from './models/cart.model';
-import { CartItemStatus } from './models/cart-item.model';
+import { CartItem } from './models/cart-item.model';
 import { CartPreview } from './models/cart-preview.model';
 import { CreateCartInput } from './inputs/create-cart.input';
 import { PatchCartInput } from './inputs/patch-cart.input';
+import { AddCartItemInput } from './inputs/add-cart-item.input';
+import { CartItemsStatusArgs } from './args/cart-items-status.args';
 
 @Resolver()
 export class CartsResolver {
@@ -23,10 +25,8 @@ export class CartsResolver {
 
   @Query(() => Cart)
   cart(
-    @Args('cartId')
-    cartId: number,
-    @Args('itemsStatus', { type: () => CartItemStatus, nullable: true })
-    itemsStatus?: CartItemStatus,
+    @Args('cartId') cartId: number,
+    @Args() { itemsStatus }: CartItemsStatusArgs,
   ) {
     return this.httpService
       .get(`/carts/${cartId}`, { params: { itemsStatus } })
@@ -68,5 +68,22 @@ export class CartsResolver {
       this.httpService.post(`/carts/${cartId}/close`, {}, onBehalfOf(userId)),
     );
     return cartId;
+  }
+
+  @Mutation(() => CartItem)
+  @JwtAuth()
+  addCartItem(
+    @UserId() userId: string,
+    @Args('cartId', { type: () => Int }) cartId: number,
+    @Args('addCartItemInput') input: AddCartItemInput,
+  ) {
+    const payload = {
+      ...input,
+      customerId: userId,
+    };
+
+    return this.httpService
+      .post(`/carts/${cartId}/items`, payload, onBehalfOf(userId))
+      .pipe(map(({ data }) => data));
   }
 }

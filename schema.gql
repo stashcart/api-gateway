@@ -77,6 +77,7 @@ type Mutation {
   createCart(createCartInput: CreateCartInput!): Cart!
   patchCart(patchCartInput: PatchCartInput!, id: Float!): Cart!
   closeCart(cartId: Float!): Int!
+  addCartItem(addCartItemInput: AddCartItemInput!, cartId: Int!): CartItem!
 }
 
 input RegisterInput {
@@ -99,4 +100,9 @@ input CreateCartInput {
 input PatchCartInput {
   title: String
   isAutoApproveEnabled: Boolean
+}
+
+input AddCartItemInput {
+  amount: Int!
+  productUrl: String!
 }
