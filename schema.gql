@@ -67,7 +67,8 @@ type Query {
   login(email: String!, password: String!): AuthResponse!
   profile(id: String!): Profile!
   carts(ownerId: String): [CartPreview!]!
-  cart(itemsStatus: CartItemStatus, cartId: Float!): Cart!
+  cart(itemsStatus: CartItemStatus, cartId: Int!): Cart!
+  cartItems(itemsStatus: CartItemStatus, cartId: Int!): [CartItem!]!
   stores: [Store!]!
 }
 
@@ -75,9 +76,12 @@ type Mutation {
   register(registerInput: RegisterInput!): AuthResponse!
   patchProfile(patchProfileInput: PatchProfileInput!): Profile!
   createCart(createCartInput: CreateCartInput!): Cart!
-  patchCart(patchCartInput: PatchCartInput!, id: Float!): Cart!
-  closeCart(cartId: Float!): Int!
+  patchCart(patchCartInput: PatchCartInput!, id: Int!): Cart!
+  closeCart(cartId: Int!): Int!
   addCartItem(addCartItemInput: AddCartItemInput!, cartId: Int!): CartItem!
+  deleteItem(itemId: Int!, cartId: Int!): Int!
+  approveCartItem(itemId: Int!, cartId: Int!): CartItem!
+  rejectCartItem(itemId: Int!, cartId: Int!): CartItem!
 }
 
 input RegisterInput {

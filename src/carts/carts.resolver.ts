@@ -25,7 +25,7 @@ export class CartsResolver {
 
   @Query(() => Cart)
   cart(
-    @Args('cartId') cartId: number,
+    @Args('cartId', { type: () => Int }) cartId: number,
     @Args() { itemsStatus }: CartItemsStatusArgs,
   ) {
     return this.httpService
@@ -53,7 +53,7 @@ export class CartsResolver {
   @JwtAuth()
   patchCart(
     @UserId() userId: string,
-    @Args('id') cartId: number,
+    @Args('id', { type: () => Int }) cartId: number,
     @Args('patchCartInput') input: PatchCartInput,
   ) {
     return this.httpService
@@ -63,7 +63,10 @@ export class CartsResolver {
 
   @Mutation(() => Int)
   @JwtAuth()
-  async closeCart(@UserId() userId: string, @Args('cartId') cartId: number) {
+  async closeCart(
+    @UserId() userId: string,
+    @Args('cartId', { type: () => Int }) cartId: number,
+  ) {
     await firstValueFrom(
       this.httpService.post(`/carts/${cartId}/close`, {}, onBehalfOf(userId)),
     );
@@ -84,6 +87,64 @@ export class CartsResolver {
 
     return this.httpService
       .post(`/carts/${cartId}/items`, payload, onBehalfOf(userId))
+      .pipe(map(({ data }) => data));
+  }
+
+  @Query(() => [CartItem])
+  cartItems(
+    @Args('cartId', { type: () => Int }) cartId: number,
+    @Args() { itemsStatus }: CartItemsStatusArgs,
+  ) {
+    return this.httpService
+      .get(`/carts/${cartId}/items`, { params: { itemsStatus } })
+      .pipe(map(({ data }) => data));
+  }
+
+  @Mutation(() => Int)
+  @JwtAuth()
+  async deleteItem(
+    @UserId() deleterId: string,
+    @Args('cartId', { type: () => Int }) cartId: number,
+    @Args('itemId', { type: () => Int }) itemId: number,
+  ) {
+    await firstValueFrom(
+      this.httpService.delete(
+        `/carts/${cartId}/items/${itemId}`,
+        onBehalfOf(deleterId),
+      ),
+    );
+    return itemId;
+  }
+
+  @Mutation(() => CartItem)
+  @JwtAuth()
+  approveCartItem(
+    @UserId() cartOwnerId: string,
+    @Args('cartId', { type: () => Int }) cartId: number,
+    @Args('itemId', { type: () => Int }) itemId: number,
+  ) {
+    return this.httpService
+      .post(
+        `/carts/${cartId}/items/${itemId}/approve`,
+        {},
+        onBehalfOf(cartOwnerId),
+      )
+      .pipe(map(({ data }) => data));
+  }
+
+  @Mutation(() => CartItem)
+  @JwtAuth()
+  rejectCartItem(
+    @UserId() cartOwnerId: string,
+    @Args('cartId', { type: () => Int }) cartId: number,
+    @Args('itemId', { type: () => Int }) itemId: number,
+  ) {
+    return this.httpService
+      .post(
+        `/carts/${cartId}/items/${itemId}/reject`,
+        {},
+        onBehalfOf(cartOwnerId),
+      )
       .pipe(map(({ data }) => data));
   }
 }
