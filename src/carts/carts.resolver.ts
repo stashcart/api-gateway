@@ -23,6 +23,14 @@ export class CartsResolver {
       .pipe(map(({ data }) => data));
   }
 
+  @Query(() => [CartPreview])
+  @JwtAuth()
+  myCarts(@UserId() userId: string) {
+    return this.httpService
+      .get('/carts', { params: { ownerId: userId } })
+      .pipe(map(({ data }) => data));
+  }
+
   @Query(() => Cart)
   cart(
     @Args('cartId', { type: () => Int }) cartId: number,
