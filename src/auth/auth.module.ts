@@ -1,8 +1,12 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthResolver } from './auth.resolver';
+import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
+// Every module uses authentication API
+@Global()
 @Module({
   imports: [
     HttpModule.registerAsync({
@@ -12,6 +16,7 @@ import { AuthResolver } from './auth.resolver';
       }),
     }),
   ],
-  providers: [AuthResolver],
+  providers: [AuthResolver, AuthService, JwtAuthGuard],
+  exports: [JwtAuthGuard, AuthService],
 })
 export class AuthModule {}

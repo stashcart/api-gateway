@@ -5,7 +5,6 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { APP_FILTER } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
-import { JwtStrategy } from './_common/strategies/jwt.strategy';
 import { ProfilesModule } from './profiles/profiles.module';
 import { CartsModule } from './carts/carts.module';
 import { StoresModule } from './stores/stores.module';
@@ -25,7 +24,6 @@ import { AxiosExceptionFilter } from './_common/exception-filters/axios.exceptio
     StoresModule,
   ],
   providers: [
-    JwtStrategy,
     {
       provide: APP_FILTER,
       useClass: AxiosExceptionFilter,
