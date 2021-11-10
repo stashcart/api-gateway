@@ -3,7 +3,7 @@ import { firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { JwtAuth } from 'src/_common/decorators/jwt-auth.decorator';
 import { UserId } from 'src/_common/decorators/user-id.decorator';
-import { onBehalfOf } from 'src/_common/utils/on-behalf-of';
+import { attachUserId } from 'src/_common/utils/attach-user-id';
 import { Cart } from './models/cart.model';
 import { CartItem } from './models/cart-item.model';
 import { CartPreview } from './models/cart-preview.model';
@@ -53,7 +53,7 @@ export class CartsResolver {
     };
 
     return this.httpService
-      .post('/carts', payload, onBehalfOf(userId))
+      .post('/carts', payload, attachUserId(userId))
       .pipe(map(({ data }) => data));
   }
 
@@ -65,7 +65,7 @@ export class CartsResolver {
     @Args('patchCartInput') input: PatchCartInput,
   ) {
     return this.httpService
-      .patch(`/carts/${cartId}`, input, onBehalfOf(userId))
+      .patch(`/carts/${cartId}`, input, attachUserId(userId))
       .pipe(map(({ data }) => data));
   }
 
@@ -76,7 +76,7 @@ export class CartsResolver {
     @Args('cartId', { type: () => Int }) cartId: number,
   ) {
     await firstValueFrom(
-      this.httpService.post(`/carts/${cartId}/close`, {}, onBehalfOf(userId)),
+      this.httpService.post(`/carts/${cartId}/close`, {}, attachUserId(userId)),
     );
     return cartId;
   }
@@ -94,7 +94,7 @@ export class CartsResolver {
     };
 
     return this.httpService
-      .post(`/carts/${cartId}/items`, payload, onBehalfOf(userId))
+      .post(`/carts/${cartId}/items`, payload, attachUserId(userId))
       .pipe(map(({ data }) => data));
   }
 
@@ -118,7 +118,7 @@ export class CartsResolver {
     await firstValueFrom(
       this.httpService.delete(
         `/carts/${cartId}/items/${itemId}`,
-        onBehalfOf(deleterId),
+        attachUserId(deleterId),
       ),
     );
     return itemId;
@@ -135,7 +135,7 @@ export class CartsResolver {
       .post(
         `/carts/${cartId}/items/${itemId}/approve`,
         {},
-        onBehalfOf(cartOwnerId),
+        attachUserId(cartOwnerId),
       )
       .pipe(map(({ data }) => data));
   }
@@ -151,7 +151,7 @@ export class CartsResolver {
       .post(
         `/carts/${cartId}/items/${itemId}/reject`,
         {},
-        onBehalfOf(cartOwnerId),
+        attachUserId(cartOwnerId),
       )
       .pipe(map(({ data }) => data));
   }

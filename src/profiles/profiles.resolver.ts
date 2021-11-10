@@ -3,7 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { map } from 'rxjs';
 import { JwtAuth } from 'src/_common/decorators/jwt-auth.decorator';
 import { UserId } from 'src/_common/decorators/user-id.decorator';
-import { onBehalfOf } from 'src/_common/utils/on-behalf-of';
+import { attachUserId } from 'src/_common/utils/attach-user-id';
 import { PatchProfileInput } from './inputs/patch-profile.input';
 import { Profile } from './models/profile.model';
 
@@ -33,7 +33,7 @@ export class ProfilesResolver {
     @Args('patchProfileInput') patchProfileInput: PatchProfileInput,
   ) {
     return this.httpService
-      .patch(`/profiles/${userId}`, patchProfileInput, onBehalfOf(userId))
+      .patch(`/profiles/${userId}`, patchProfileInput, attachUserId(userId))
       .pipe(map(({ data }) => data));
   }
 }
