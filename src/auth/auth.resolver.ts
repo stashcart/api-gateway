@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { map } from 'rxjs';
 import { LoginArgs } from './args/login.args';
+import { RefreshTokenInput } from './inputs/refresh-token.input';
 import { RegisterInput } from './inputs/register.input';
 import { AuthResponse } from './models/auth-response.model';
 
@@ -20,6 +21,15 @@ export class AuthResolver {
   register(@Args('registerInput') registerInput: RegisterInput) {
     return this.httpService
       .post('/auth/register', registerInput)
+      .pipe(map(({ data }) => data));
+  }
+
+  @Mutation(() => AuthResponse)
+  refreshTokenPair(
+    @Args('refreshTokenInput') refreshTokenInput: RefreshTokenInput,
+  ) {
+    return this.httpService
+      .post('/auth/refresh', refreshTokenInput)
       .pipe(map(({ data }) => data));
   }
 }

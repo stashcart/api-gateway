@@ -3,7 +3,8 @@
 # ------------------------------------------------------
 
 type AuthResponse {
-  authToken: String!
+  accessToken: String!
+  refreshToken: String!
 }
 
 type Profile {
@@ -76,6 +77,7 @@ type Query {
 
 type Mutation {
   register(registerInput: RegisterInput!): AuthResponse!
+  refreshTokenPair(refreshTokenInput: RefreshTokenInput!): AuthResponse!
   patchProfile(patchProfileInput: PatchProfileInput!): Profile!
   createCart(createCartInput: CreateCartInput!): Cart!
   patchCart(patchCartInput: PatchCartInput!, id: Int!): Cart!
@@ -89,6 +91,10 @@ type Mutation {
 input RegisterInput {
   email: String!
   password: String!
+}
+
+input RefreshTokenInput {
+  refreshToken: String!
 }
 
 input PatchProfileInput {

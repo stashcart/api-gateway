@@ -16,7 +16,7 @@ export class JwtAuthGuard implements CanActivate {
     const request = ctx.getContext().req;
     const jwt = this.getJwtFromRequest(request);
 
-    request.user = await this.authService.verifyToken(jwt);
+    request.user = await this.authService.verifyAccessToken(jwt);
 
     return true;
   }

@@ -6,10 +6,10 @@ import { firstValueFrom, map } from 'rxjs';
 export class AuthService {
   constructor(private readonly httpService: HttpService) {}
 
-  verifyToken(authToken: string): Promise<string> {
+  verifyAccessToken(accessToken: string): Promise<string> {
     return firstValueFrom(
       this.httpService
-        .post('/auth/verify', { authToken })
+        .post('/auth/verify', { accessToken })
         .pipe(map(({ data }) => data)),
     );
   }
