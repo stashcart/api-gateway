@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { map } from 'rxjs';
 import { LoginArgs } from './args/login.args';
+import { GoogleAuthInput } from './inputs/google-auth.input';
 import { RefreshTokenInput } from './inputs/refresh-token.input';
 import { RegisterInput } from './inputs/register.input';
 import { AuthResponse } from './models/auth-response.model';
@@ -21,6 +22,13 @@ export class AuthResolver {
   register(@Args('registerInput') registerInput: RegisterInput) {
     return this.httpService
       .post('/auth/register', registerInput)
+      .pipe(map(({ data }) => data));
+  }
+
+  @Mutation(() => AuthResponse)
+  authWithGoogle(@Args('googleAuthInput') googleAuthInput: GoogleAuthInput) {
+    return this.httpService
+      .post('/auth/google', googleAuthInput)
       .pipe(map(({ data }) => data));
   }
 
